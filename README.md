@@ -50,4 +50,17 @@ Linux:
     sudo apt-get install libzbar0
 
 ### Download
-I'll do this shit later
+
+Download the files and extract it. If you need help doing that you are genetically defecitve.
+
+### Run
+
+While in the folder with the code. In your terminal, run one of the following.
+
+Encoding:
+
+    python3 encode.py
+
+Decoding:
+
+    python3 decode.py

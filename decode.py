@@ -42,7 +42,7 @@ def extract_frames(video_path, output_dir):
     
     frame_count = 0
     
-    with open("output.txt", "wb") as f:
+    with open(os.path.join("output", input("Output file?\n")), "wb") as f:
         while video.isOpened():
             ret, frame = video.read()
             
@@ -57,8 +57,8 @@ def extract_frames(video_path, output_dir):
     
     video.release()
     
-    print(f"Frames extracted: {frame_count}")
+    print(f"Finished doing shit. Saved into output folder.")
     
-video_path = 'output.mp4'
+video_path = input("Input file?\n")
 output_dir = 'framestmp'
 extract_frames(video_path, output_dir)

@@ -84,7 +84,7 @@ def main():
     maxallowedthreads = 500
     chunksize = int(2250)
     
-    f = open("inputfile.txt", "rb")
+    f = open(input("Input file?\n"), "rb")
 
     f.seek(0, os.SEEK_END)
     size = f.tell()
@@ -125,7 +125,14 @@ def main():
 
     video_name = "output.mp4"
 
-    create_video_from_images("framestmp", video_name)
+    try:
+        os.mkdir("output")
+    except FileExistsError:
+        pass
+
+    create_video_from_images("framestmp", os.path.join("output", video_name))
+
+    print("Output saved to output folder.")
 
     clear_folder("framestmp")
 
