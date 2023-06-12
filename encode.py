@@ -7,6 +7,7 @@ import threading
 import time
 import math
 import json
+import psutil
 
 def create_video_from_images(image_folder, video_name):
     images = sorted([img for img in os.listdir(image_folder) if img.endswith(".png")], key=lambda x: int(x.split(".")[0]))
@@ -37,7 +38,11 @@ def process_data_chunk(chunksize, idx, f):
     global shidandfard
     global turn
     
-    while turn != idx:
+    mem = psutil.virtual_memory()
+    while turn != idx and mem.available > 500000000:
+        mem = psutil.virtual_memory()
+        if mem.available < 500000000:
+            print("Out of memory. Waiting for memory to free up.")
         time.sleep(0.025)
         
     print(f"Reading chunk #{idx}.")
