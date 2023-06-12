@@ -33,7 +33,7 @@ def clear_folder(folder_path):
         file_path = os.path.join(folder_path, filename)
         os.remove(file_path)
 
-def process_data_chunk(chunksize, idx, appentage, f):
+def process_data_chunk(chunksize, idx, f):
     global maxallowedthreads
     global shidandfard
     global turn
@@ -93,14 +93,9 @@ def main():
     futures = []
     idx = -1
     while True:
-        if position > size:
-            appentage = b"!\x00\x00"
-            end = True
-        else:
-            appentage = b""
             
         idx += 1
-        threading.Thread(target=process_data_chunk, args=(chunksize, idx, appentage, f)).start()
+        threading.Thread(target=process_data_chunk, args=(chunksize, idx, f)).start()
 
         position += chunksize
         
