@@ -34,11 +34,10 @@ def clear_folder(folder_path):
         os.remove(file_path)
 
 def process_data_chunk(chunksize, idx, f):
-    global maxallowedthreads
     global shidandfard
     global turn
     
-    while turn != idx or len(shidandfard) >= maxallowedthreads:
+    while turn != idx:
         time.sleep(0.025)
         
     print(f"Reading chunk #{idx}.")
@@ -67,7 +66,6 @@ def process_data_chunk(chunksize, idx, f):
     shidandfard[idx] = "Done"
 
 def main():
-    global maxallowedthreads
     global shidandfard
     global turn
     
@@ -79,7 +77,6 @@ def main():
     pixels = []
     end = False
     
-    maxallowedthreads = 500
     chunksize = int(2150)
     
     f = open(input("Input file?\n"), "rb")
