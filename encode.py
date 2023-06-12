@@ -3,7 +3,6 @@ import cv2
 import base64
 import gzip
 import qrcode
-import configparser
 import threading
 import time
 import math
@@ -76,9 +75,6 @@ def main():
     
     shidandfard = {}
     clear_folder("framestmp")
-
-    config = configparser.ConfigParser()
-    config.read('config.ini')
 
     pixels = []
     end = False
