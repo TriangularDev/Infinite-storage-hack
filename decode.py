@@ -3,6 +3,7 @@ import os
 from pyzbar import pyzbar
 import base64
 import gzip
+import json
 
 def read_qr_code(image_path):
     image = cv2.imread(image_path)
@@ -20,7 +21,7 @@ def read_qr_code(image_path):
         cv2.putText(image, text, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
         os.remove(image_path)
         
-        return gzip.decompress(base64.urlsafe_b64decode(barcode_data))
+        return barcode_data
         
     cv2.imshow("Image", image)
     cv2.waitKey(0)
@@ -41,6 +42,7 @@ def extract_frames(video_path, output_dir):
     clear_folder(output_dir)
     
     frame_count = 0
+    last_time = None
     
     with open(os.path.join("output", input("Output file?\n")), "wb") as f:
         while video.isOpened():
@@ -51,7 +53,12 @@ def extract_frames(video_path, output_dir):
             
             frame_path = os.path.join(output_dir, f"{frame_count}.png")
             cv2.imwrite(frame_path, frame)
-            f.write(read_qr_code(frame_path))
+            the = json.loads(read_qr_code(frame_path))
+            
+            if last_time != the:
+                f.write(gzip.decompress(base64.urlsafe_b64decode(the["chunk"].encode("utf-8"))))
+            
+            last_time = the["time"]
             
             frame_count += 1
     

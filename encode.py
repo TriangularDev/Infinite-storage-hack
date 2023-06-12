@@ -7,6 +7,7 @@ import configparser
 import threading
 import time
 import math
+import json
 
 def create_video_from_images(image_folder, video_name):
     images = sorted([img for img in os.listdir(image_folder) if img.endswith(".png")], key=lambda x: int(x.split(".")[0]))
@@ -45,16 +46,17 @@ def process_data_chunk(chunksize, idx, f):
     f.seek(chunksize * idx)
     data_raw = f.read(chunksize)
     print(f"Read {len(data_raw)} bytes.")
+    fard = time.time()
     turn += 1
     
     shidandfard[idx] = "Doing shit."
-    data = base64.urlsafe_b64encode(gzip.compress(data_raw)) + appentage
+    data = base64.urlsafe_b64encode(gzip.compress(data_raw))
 
     print(f"Processing node #{idx}.")
         
     qr = qrcode.QRCode(version=40, box_size=10, border=5)
 
-    qr.add_data(data.decode("ascii"))
+    qr.add_data(json.dumps({"chunk": data.decode("ascii"), "time": fard}))
 
     qr.make(fit=True)
             
@@ -82,7 +84,7 @@ def main():
     end = False
     
     maxallowedthreads = 500
-    chunksize = int(2250)
+    chunksize = int(2150)
     
     f = open(input("Input file?\n"), "rb")
 
@@ -91,13 +93,10 @@ def main():
     f.seek(0)
     position = -1
     futures = []
-    idx = -1
-    while True:
+    for idx in range(0, math.ceil(size / 2150) + 1):
             
-        idx += 1
+        print(idx)
         threading.Thread(target=process_data_chunk, args=(chunksize, idx, f)).start()
-
-        position += chunksize
         
         if end:
             break
