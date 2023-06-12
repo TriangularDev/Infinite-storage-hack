@@ -55,7 +55,7 @@ def extract_frames(video_path, output_dir):
             cv2.imwrite(frame_path, frame)
             the = json.loads(read_qr_code(frame_path))
             
-            if last_time != the:
+            if last_time != the["time"]:
                 f.write(gzip.decompress(base64.urlsafe_b64decode(the["chunk"].encode("utf-8"))))
             
             last_time = the["time"]
