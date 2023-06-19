@@ -56,7 +56,7 @@ def extract_frames(video_path, output_dir):
             the = json.loads(read_qr_code(frame_path))
             
             if last_time != the["time"]:
-                f.write(gzip.decompress(base64.urlsafe_b64decode(the["chunk"].encode("utf-8"))))
+                f.write(base64.a85decode(the["chunk"].encode("utf-8")))
             
             last_time = the["time"]
             
