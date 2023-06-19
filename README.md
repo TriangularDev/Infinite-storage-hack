@@ -31,6 +31,11 @@ This is slow as hell but it can store files of any size. And is practically comp
 Figure it out. If it was hard to write it should be hard to execute.
 Just kidding, I wonder how many low attention-span 12 year olds clicked off.
 
+### Disclaimer
+This is a really bad idea and you shouldnt use this to store important files. It can cause data loss. 
+Only use it on files you don't mind losing.
+You should upload the video to a throwaway account.
+
 ### Install dependencies
 
 Install Python3. If you ran python scripts before or you ran suspicious shit from a user on discord, then you probably have Python.
